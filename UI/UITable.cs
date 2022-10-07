@@ -8,28 +8,28 @@ namespace Unity.FPS.UI
     public class UITable : MonoBehaviour
     {
         [Tooltip("How much space should there be between items?")]
-        public float Offset;
+        public float UIOffset;
 
         [Tooltip("Add new the new items below existing items.")]
-        public bool Down;
+        public bool UIDown;
 
         public void UpdateTable(GameObject newItem)
         {
             if (newItem != null)
                 newItem.GetComponent<RectTransform>().localScale = Vector3.one;
 
-            float height = 0;
+            float UIheight = 0;
             for (int i = 0; i < transform.childCount; i++)
             {
                 RectTransform child = transform.GetChild(i).GetComponent<RectTransform>();
                 Vector2 size = child.sizeDelta;
-                height += Down ? -(1 - child.pivot.y) * size.y : (1 - child.pivot.y) * size.y;
+                UIheight += UIDown ? -(1 - child.pivot.y) * size.y : (1 - child.pivot.y) * size.y;
                 if (i != 0)
-                    height += Down ? -Offset : Offset;
+                    UIheight += UIDown ? -UIOffset : UIOffset;
 
                 Vector2 newPos = Vector2.zero;
 
-                newPos.y = height;
+                newPos.y = UIheight;
                 newPos.x = 0;//-child.pivot.x * size.x * hi.localScale.x;
                 child.anchoredPosition = newPos;
             }
