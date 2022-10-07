@@ -24,7 +24,7 @@ namespace Unity.FPS.AI
 
         [Header("Parameters")]
         [Tooltip("The Y height at which the enemy will be automatically killed (if it falls off of the level)")]
-        public float SelfDestructYHeight = -20f;
+        public float SelfDestructYHeight; // old value: -20f
 
         [Tooltip("The distance at which the enemy considers that it has reached its current path destination point")]
         public float PathReachingRadius = 2f;
