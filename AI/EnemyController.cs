@@ -23,33 +23,33 @@ namespace Unity.FPS.AI
         }
 
         [Header("Parameters")]
-        [Tooltip("The Y height at which the enemy will be automatically killed (if it falls off of the level)")]
-        public float SelfDestructYHeight; // old value: -20f
+        [Tooltip("The Y height at which the enemy will be automatically killed (if it falls off of the level into the void)")]
+        public float EnemySelfDestructYHeight = -20f; // old value: -20f
 
         [Tooltip("The distance at which the enemy considers that it has reached its current path destination point")]
-        public float PathReachingRadius = 2f;
+        public float EnemyPathReachingRadius = 2f; // old value: 2f
 
         [Tooltip("The speed at which the enemy rotates")]
-        public float OrientationSpeed = 10f;
+        public float EnemyOrientationSpeed = 10f; // old value: 10f
 
         [Tooltip("Delay after death where the GameObject is destroyed (to allow for animation)")]
-        public float DeathDuration = 0f;
+        public float EnemyDeathDuration = 0f; // old value: 0f
 
 
         [Header("Weapons Parameters")] [Tooltip("Allow weapon swapping for this enemy")]
-        public bool SwapToNextWeapon = false;
+        public bool SwapToNextWeapon = false; // old value: false
 
         [Tooltip("Time delay between a weapon swap and the next attack")]
         public float DelayAfterWeaponSwap = 0f;
 
         [Header("Eye color")] [Tooltip("Material for the eye color")]
-        public Material EyeColorMaterial;
+        public Material EnemyEyeColorMaterial;
 
         [Tooltip("The default color of the bot's eye")] [ColorUsageAttribute(true, true)]
-        public Color DefaultEyeColor;
+        public Color EnemyDefaultEyeColor;
 
         [Tooltip("The attack color of the bot's eye")] [ColorUsageAttribute(true, true)]
-        public Color AttackEyeColor;
+        public Color EnemyAttackEyeColor;
 
         [Header("Flash on hit")] [Tooltip("The material used for the body of the hoverbot")]
         public Material EnemyBodyMaterial;
@@ -70,7 +70,7 @@ namespace Unity.FPS.AI
         public Transform DeathVfxSpawnPoint;
 
         [Header("Loot")] [Tooltip("The object this enemy can drop when dying")]
-        public GameObject LootPrefab;
+        public GameObject EnemyLootPrefab;
 
         [Tooltip("The chance the object has to drop")] [Range(0, 1)]
         public float DropRate = 1f;
@@ -176,7 +176,7 @@ namespace Unity.FPS.AI
             {
                 for (int i = 0; i < renderer.sharedMaterials.Length; i++)
                 {
-                    if (renderer.sharedMaterials[i] == EyeColorMaterial)
+                    if (renderer.sharedMaterials[i] == EnemyEyeColorMaterial)
                     {
                         m_EyeRendererData = new RendererIndexData(renderer, i);
                     }
@@ -194,7 +194,7 @@ namespace Unity.FPS.AI
             if (m_EyeRendererData.Renderer != null)
             {
                 m_EyeColorMaterialPropertyBlock = new MaterialPropertyBlock();
-                m_EyeColorMaterialPropertyBlock.SetColor("_EmissionColor", DefaultEyeColor);
+                m_EyeColorMaterialPropertyBlock.SetColor("_EmissionColor", EnemyDefaultEyeColor);
                 m_EyeRendererData.Renderer.SetPropertyBlock(m_EyeColorMaterialPropertyBlock,
                     m_EyeRendererData.MaterialIndex);
             }
@@ -219,7 +219,7 @@ namespace Unity.FPS.AI
         void EnsureIsWithinLevelBounds()
         {
             // at every frame, this tests for conditions to kill the enemy
-            if (transform.position.y < SelfDestructYHeight)
+            if (transform.position.y < EnemySelfDestructYHeight)
             {
                 Destroy(gameObject);
                 return;
@@ -233,7 +233,7 @@ namespace Unity.FPS.AI
             // Set the eye attack color and property block if the eye renderer is set
             if (m_EyeRendererData.Renderer != null)
             {
-                m_EyeColorMaterialPropertyBlock.SetColor("_EmissionColor", DefaultEyeColor);
+                m_EyeColorMaterialPropertyBlock.SetColor("_EmissionColor", EnemyDefaultEyeColor);
                 m_EyeRendererData.Renderer.SetPropertyBlock(m_EyeColorMaterialPropertyBlock,
                     m_EyeRendererData.MaterialIndex);
             }
@@ -246,7 +246,7 @@ namespace Unity.FPS.AI
             // Set the eye default color and property block if the eye renderer is set
             if (m_EyeRendererData.Renderer != null)
             {
-                m_EyeColorMaterialPropertyBlock.SetColor("_EmissionColor", AttackEyeColor);
+                m_EyeColorMaterialPropertyBlock.SetColor("_EmissionColor", EnemyAttackEyeColor);
                 m_EyeRendererData.Renderer.SetPropertyBlock(m_EyeColorMaterialPropertyBlock,
                     m_EyeRendererData.MaterialIndex);
             }
@@ -259,7 +259,7 @@ namespace Unity.FPS.AI
             {
                 Quaternion targetRotation = Quaternion.LookRotation(lookDirection);
                 transform.rotation =
-                    Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * OrientationSpeed);
+                    Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * EnemyOrientationSpeed);
             }
         }
 
@@ -320,7 +320,7 @@ namespace Unity.FPS.AI
             if (IsPathValid())
             {
                 // Check if reached the path destination
-                if ((transform.position - GetDestinationOnPath()).magnitude <= PathReachingRadius)
+                if ((transform.position - GetDestinationOnPath()).magnitude <= EnemyPathReachingRadius)
                 {
                     // increment path destination index
                     m_PathDestinationNodeIndex =
@@ -369,18 +369,18 @@ namespace Unity.FPS.AI
             // loot an object
             if (TryDropItem())
             {
-                Instantiate(LootPrefab, transform.position, Quaternion.identity);
+                Instantiate(EnemyLootPrefab, transform.position, Quaternion.identity);
             }
 
             // this will call the OnDestroy function
-            Destroy(gameObject, DeathDuration);
+            Destroy(gameObject, EnemyDeathDuration);
         }
 
         void OnDrawGizmosSelected()
         {
             // Path reaching range
             Gizmos.color = PathReachingRangeColor;
-            Gizmos.DrawWireSphere(transform.position, PathReachingRadius);
+            Gizmos.DrawWireSphere(transform.position, EnemyPathReachingRadius);
 
             if (DetectionModule != null)
             {
@@ -433,7 +433,7 @@ namespace Unity.FPS.AI
 
         public bool TryDropItem()
         {
-            if (DropRate == 0 || LootPrefab == null)
+            if (DropRate == 0 || EnemyLootPrefab == null)
                 return false;
             else if (DropRate == 1)
                 return true;
