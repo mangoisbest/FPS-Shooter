@@ -5,7 +5,7 @@ namespace Unity.FPS.Gameplay
 {
     public class ObjectiveKillEnemies : Objective
     {
-        [Tooltip("Chose whether you need to kill every enemies or only a minimum amount")]
+        [Tooltip("Chose whether you need to kill every enemy or only a minimum amount")]
         public bool MustKillAllEnemies = true;
 
         [Tooltip("If MustKillAllEnemies is false, this is the amount of enemy kills required")]
@@ -24,7 +24,7 @@ namespace Unity.FPS.Gameplay
 
             // set a title and description specific for this type of objective, if it hasn't one
             if (string.IsNullOrEmpty(Title))
-                Title = "Eliminate" + (MustKillAllEnemies ? "all the" : KillsToCompleteObjective.ToString()) +
+                Title = "Eliminate" + (MustKillAllEnemies ? "all" : KillsToCompleteObjective.ToString()) +
                         " enemies";
 
             if (string.IsNullOrEmpty(Description))
@@ -46,12 +46,12 @@ namespace Unity.FPS.Gameplay
             // update the objective text according to how many enemies remain to kill
             if (targetRemaining == 0)
             {
-                CompleteObjective(string.Empty, GetUpdatedCounterAmount(), "Objective complete : " + Title);
+                CompleteObjective(string.Empty, GetUpdatedCounterAmount(), "Objective completed : " + Title);
             }
             else if (targetRemaining == 1)
             {
                 string notificationText = NotificationEnemiesRemainingThreshold >= targetRemaining
-                    ? "One enemy left"
+                    ? "Only one enemy left"
                     : string.Empty;
                 UpdateObjective(string.Empty, GetUpdatedCounterAmount(), notificationText);
             }
@@ -59,7 +59,7 @@ namespace Unity.FPS.Gameplay
             {
                 // create a notification text if needed, if it stays empty, the notification will not be created
                 string notificationText = NotificationEnemiesRemainingThreshold >= targetRemaining
-                    ? targetRemaining + " enemies to kill left"
+                    ? targetRemaining + " enemies to still elimnate to beat the objective"
                     : string.Empty;
 
                 UpdateObjective(string.Empty, GetUpdatedCounterAmount(), notificationText);
