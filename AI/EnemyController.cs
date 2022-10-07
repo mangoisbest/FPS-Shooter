@@ -52,7 +52,7 @@ namespace Unity.FPS.AI
         public Color AttackEyeColor;
 
         [Header("Flash on hit")] [Tooltip("The material used for the body of the hoverbot")]
-        public Material BodyMaterial;
+        public Material EnemyBodyMaterial;
 
         [Tooltip("The gradient representing the color of the flash on hit")] [GradientUsageAttribute(true)]
         public Gradient OnHitBodyGradient;
@@ -64,7 +64,7 @@ namespace Unity.FPS.AI
         public AudioClip DamageTick;
 
         [Header("VFX")] [Tooltip("The VFX prefab spawned when the enemy dies")]
-        public GameObject DeathVfx;
+        public GameObject EnemyDeathVfx;
 
         [Tooltip("The point at which the death VFX is spawned")]
         public Transform DeathVfxSpawnPoint;
@@ -181,7 +181,7 @@ namespace Unity.FPS.AI
                         m_EyeRendererData = new RendererIndexData(renderer, i);
                     }
 
-                    if (renderer.sharedMaterials[i] == BodyMaterial)
+                    if (renderer.sharedMaterials[i] == EnemyBodyMaterial)
                     {
                         m_BodyRenderers.Add(new RendererIndexData(renderer, i));
                     }
@@ -360,7 +360,7 @@ namespace Unity.FPS.AI
         void OnDie()
         {
             // spawn a particle system when dying
-            var vfx = Instantiate(DeathVfx, DeathVfxSpawnPoint.position, Quaternion.identity);
+            var vfx = Instantiate(EnemyDeathVfx, DeathVfxSpawnPoint.position, Quaternion.identity);
             Destroy(vfx, 5f);
 
             // tells the game flow manager to handle the enemy destuction
