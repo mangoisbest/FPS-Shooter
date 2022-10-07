@@ -20,7 +20,7 @@ namespace Unity.FPS.UI
 
         void Update()
         {
-            EnemiesText.text = m_EnemyManager.NumberOfEnemiesRemaining + "/" + m_EnemyManager.NumberOfEnemiesTotal;
+            EnemiesText.text = m_EnemyManager.NumberOfEnemiesRemaining + "/" + m_EnemyManager.TotalNumberOfEnemies;
         }
     }
 }
