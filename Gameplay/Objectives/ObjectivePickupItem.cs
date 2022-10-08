@@ -5,7 +5,7 @@ namespace Unity.FPS.Gameplay
 {
     public class ObjectivePickupItem : Objective
     {
-        [Tooltip("Item to pickup to complete the objective")]
+        [Tooltip("The item to collect in order to complete the objective")]
         public GameObject ItemToPickup;
 
         protected override void Start()

@@ -6,10 +6,10 @@ namespace Unity.FPS.Game
     // It is mostly used for AI detection logic and determining if an actor is friend or foe
     public class Actor : MonoBehaviour
     {
-        [Tooltip("Represents the affiliation (or team) of the actor. Actors of the same affiliation are friendly to each other")]
+        [Tooltip("Represents the actor's affiliation (or team). Actors from the same studio are friendly with one another.")]
         public int Affiliation;
 
-        [Tooltip("Represents point where other actors will aim when they attack this actor")]
+        [Tooltip("The point at which other actors will aim when attacking this actor.")]
         public Transform AimPoint;
 
         ActorsManager m_ActorsManager;

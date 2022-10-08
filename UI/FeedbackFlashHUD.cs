@@ -7,7 +7,7 @@ namespace Unity.FPS.UI
 {
     public class FeedbackFlashHUD : MonoBehaviour
     {
-        [Header("References")] [Tooltip("Image component of the flash")]
+        [Header("References")] [Tooltip("The flash's image component")]
         public Image FlashImage;
 
         [Tooltip("CanvasGroup to fade the damage flash, used when recieving damage end healing")]
