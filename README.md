@@ -1,2 +1,2 @@
-# Scripts
-This is all the scripts for my open-source unity game. Feel free to make my code better 
+# FPS Shooter
+FPS Shooter is a fps shooter game made in unity 3d and is open-source so feel free to modify my code 
